@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="uv (OrianaSurvey123Emailer)" project-jdk-type="Python SDK" />
+  <component name="RuffConfigService">
+    <option name="globalRuffExecutablePath" value="$USER_HOME$/.local/bin/ruff" />
+    <option name="globalRuffLspExecutablePath" value="$USER_HOME$/.local/bin/ruff-lsp" />
+    <option name="runRuffOnSave" value="true" />
+    <option name="useRuffImportOptimizer" value="true" />
+    <option name="useRuffServer" value="true" />
+  </component>
+  <component name="SshConsoleOptionsProvider">
+    <option name="myEncoding" value="UTF-8" />
+    <option name="myConnectionType" value="NONE" />
+    <option name="myConnectionId" value="" />
+  </component>
+</project>
