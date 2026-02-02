@@ -6,6 +6,7 @@ from zoneinfo import ZoneInfo
 
 import aiosmtplib
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
 from pydantic import BaseModel, ConfigDict, EmailStr
 from pydantic_settings import BaseSettings
@@ -14,6 +15,18 @@ app = FastAPI(
     title="Email Notifier API",
     description="Web hooks for Survey123",
     version="1.0.0",
+)
+origins = [
+    "https://survey123.arcgis.com",
+    "http://localhost",
+    "http://localhost:8000",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
