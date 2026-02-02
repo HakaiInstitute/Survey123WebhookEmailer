@@ -3,4 +3,11 @@ name = "orianasurvey123emailer"
 version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "aiosmtplib>=5.1.0",
+    "fastapi>=0.128.0",
+    "loguru>=0.7.3",
+    "pydantic-settings>=2.12.0",
+    "pydantic[email]>=2.12.5",
+    "uvicorn>=0.40.0",
+]
