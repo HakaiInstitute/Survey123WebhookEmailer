@@ -95,11 +95,11 @@ async def survey123_email_oriana(
     timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
     form_title = payload.surveyInfo.formTitle if payload.surveyInfo else "Unknown Survey"
 
-    logger.info(json.dumps(payload.feature))
+    logger.debug(json.dumps(payload.feature))
 
     attributes = payload.feature.get("attributes", {})
-    submitted_email = attributes.get("email_addr", "Unknown")
-    submitted_name = attributes.get("observer_n", "Unknown")
+    submitted_email = attributes.get("email_address", "Unknown")
+    submitted_name = attributes.get("observer_name", "Unknown")
 
     msg = EmailMessage()
     msg["Subject"] = f"New data added to {form_title} by {submitted_name}"
