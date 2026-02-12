@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from email.message import EmailMessage
 from functools import lru_cache
@@ -52,9 +53,10 @@ class UserInfo(BaseModel):
 
 class EventPayload(BaseModel):
     eventType: Literal["addData", "editData"]
-    portalInfo: PortalInfo
-    surveyInfo: SurveyInfo
-    userInfo: UserInfo
+    portalInfo: PortalInfo | None = None
+    surveyInfo: SurveyInfo | None = None
+    userInfo: UserInfo | None = None
+    feature: dict = dict()
 
     model_config = ConfigDict(extra="allow")
 
@@ -86,14 +88,18 @@ async def survey123_email_oriana(
     now = datetime.now(tz=ZoneInfo(settings.tz))
     timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
     form_title = payload.surveyInfo.formTitle
-    user = payload.userInfo
+
+    logger.info(json.dumps(payload.feature))
+
+    submitted_email = payload.feature["attributes"]["email_addr"]
+    submitted_name = payload.feature["attributes"]["observer_n"]
 
     msg = EmailMessage()
-    msg["Subject"] = f"New data added to {form_title} by {user.fullName}"
+    msg["Subject"] = f"New data added to {form_title} by {submitted_name}"
     msg["From"] = settings.sender_email
     msg["To"] = settings.receiver_email
     msg.set_content(
-        f"New data added to {form_title} by {user.fullName} ({user.email}) at {timestamp}."
+        f"New data added to {form_title} by {submitted_name} ({submitted_email}) at {timestamp}."
     )
 
     try:
@@ -101,7 +107,7 @@ async def survey123_email_oriana(
             msg,
             hostname=settings.email_host,
             port=settings.email_port,
-            username=settings.sender_email,
+            username=str(settings.sender_email),
             password=settings.sender_app_password,
             use_tls=True,
         )
