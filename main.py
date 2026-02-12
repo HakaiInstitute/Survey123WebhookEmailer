@@ -32,23 +32,29 @@ app.add_middleware(
 
 
 class PortalInfo(BaseModel):
-    url: str
-    token: str
+    url: str | None = None
+    token: str | None = None
+
+    model_config = ConfigDict(extra="allow")
 
 
 class SurveyInfo(BaseModel):
-    formItemId: str
-    formTitle: str
-    serviceItemId: str
-    serviceUrl: str
+    formItemId: str | None = None
+    formTitle: str | None = None
+    serviceItemId: str | None = None
+    serviceUrl: str | None = None
+
+    model_config = ConfigDict(extra="allow")
 
 
 class UserInfo(BaseModel):
-    username: str
-    firstName: str
-    lastName: str
-    fullName: str
-    email: str
+    username: str | None = None
+    firstName: str | None = None
+    lastName: str | None = None
+    fullName: str | None = None
+    email: str | None = None
+
+    model_config = ConfigDict(extra="allow")
 
 
 class EventPayload(BaseModel):
@@ -87,12 +93,13 @@ async def survey123_email_oriana(
 ) -> SuccessResponse:
     now = datetime.now(tz=ZoneInfo(settings.tz))
     timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
-    form_title = payload.surveyInfo.formTitle
+    form_title = payload.surveyInfo.formTitle if payload.surveyInfo else "Unknown Survey"
 
     logger.info(json.dumps(payload.feature))
 
-    submitted_email = payload.feature["attributes"]["email_addr"]
-    submitted_name = payload.feature["attributes"]["observer_n"]
+    attributes = payload.feature.get("attributes", {})
+    submitted_email = attributes.get("email_addr", "Unknown")
+    submitted_name = attributes.get("observer_n", "Unknown")
 
     msg = EmailMessage()
     msg["Subject"] = f"New data added to {form_title} by {submitted_name}"
